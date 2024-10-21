@@ -7,7 +7,7 @@
 #
 Name     : c-blosc2
 Version  : 2.15.0
-Release  : 2
+Release  : 3
 URL      : https://github.com/Blosc/c-blosc2/archive/v2.15.0/c-blosc2-2.15.0.tar.gz
 Source0  : https://github.com/Blosc/c-blosc2/archive/v2.15.0/c-blosc2-2.15.0.tar.gz
 Summary  : A blocking, shuffling and lossless compression library
@@ -21,6 +21,7 @@ BuildRequires : zlib-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
+Patch1: 0001-Our-CMAKE_INSTALL_LIBDIR-already-has-prefix-in-it.patch
 
 %description
 ========
@@ -60,13 +61,14 @@ license components for the c-blosc2 package.
 %prep
 %setup -q -n c-blosc2-2.15.0
 cd %{_builddir}/c-blosc2-2.15.0
+%patch -P 1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1729491255
+export SOURCE_DATE_EPOCH=1729492893
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -113,7 +115,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1729491255
+export SOURCE_DATE_EPOCH=1729492893
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-blosc2
 cp %{_builddir}/c-blosc2-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/c-blosc2/f95d3411831b0a3233ecbba99b85d2f1688773cd || :
